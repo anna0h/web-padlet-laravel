@@ -37,8 +37,8 @@ Route::delete('entries/{id}', [EntrieController::class, 'delete']);
 /* CommentController.php & RatingController.php Routen */
 Route::get('entries/comments', [CommentController::class, 'index']);
 Route::get('entries/ratings', [RatingController::class, 'index']);
-Route::get('entries/{entrie_id}/ratings', [RatingController::class, 'findByEntryID']);
-Route::get('entries/{entrie_id}/comments', [CommentController::class, 'findByEntryID']);
+Route::get('entries/{entrie_id}/ratings', [RatingController::class,'findByEntryID']);
+Route::get('entries/{entrie_id}/comments', [CommentController::class,'findByEntryID']);
 Route::post('entries/{entrie_id}/comments', [CommentController::class, 'saveComment']);
 Route::post('entries/{entrie_id}/ratings', [RatingController::class, 'saveRating']);
 
