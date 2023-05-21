@@ -64,7 +64,7 @@ class EntrieController extends Controller
     }
 
     // Update Entry
-    public function update(Request $request, string $entry_id): JsonResponse
+    /*public function update(Request $request, string $entry_id): JsonResponse
     {
         DB::beginTransaction();
         try {
@@ -80,6 +80,37 @@ class EntrieController extends Controller
             DB::commit();
             $entry1 = Entrie::with(['comments','user', 'ratings'])
                 ->where('id', $entry_id)->first(); // return a vaild http response
+            return response()->json($entry1, 201);
+        } catch (\Exception $e) {
+            // rollback all queries
+            DB::rollBack();
+            return response()->json("updating Entry failed: " . $e->getMessage(), 420);
+        }
+    }*/
+    public function update(Request $request, string $id): JsonResponse
+    {
+        DB::beginTransaction();
+        try {
+            $entry = Entrie::with(['comments','user', 'ratings'])
+                ->where('id', $id)->first();
+            if ($entry != null) {
+                $request = $this->parseRequest($request);
+                $entry->update($request->all());
+
+                //delete all old entries
+                // $entry->entries()->delete();
+
+                if (isset($request['entries']) && is_array($request['entries'])) {
+                    foreach ($request['entries'] as $e) {
+                        $entrie = Entrie::firstOrNew(['title' => $e['title'], 'content' => $e['content'], 'user_id' => $e['user_id'], 'padlet_id'=>$id]);
+                        $entry->entries()->save($entrie);
+                    }
+                }
+                $entry->save();
+            }
+            DB::commit();
+            $entry1 = Entrie::with(['comments','user', 'ratings'])
+                ->where('id', $id)->first(); // return a vaild http response
             return response()->json($entry1, 201);
         } catch (\Exception $e) {
             // rollback all queries
