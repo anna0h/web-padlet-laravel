@@ -29,10 +29,11 @@ Route::delete('/padlets/{id}', [PadletController::class, 'delete']);
 
 /* EntrieController.php Routen */
 Route::get('entries', [EntrieController::class,'index']);
-Route::post('/padlets/{padlet_id}/entries', [EntrieController::class, 'save']);
-Route::post('entries', [EntrieController::class,'save']);
-Route::put('entries/{id}', [EntrieController::class,'update']);
+Route::post('padlets/{padlet_id}/entries', [EntrieController::class, 'save']);
+//Route::post('entries', [EntrieController::class,'save']);
+Route::put('entries/{id}', [EntrieController::class, 'update']);
 Route::delete('entries/{id}', [EntrieController::class, 'delete']);
+Route::get('entries/{entrie_id}', [EntrieController::class,'getEntryByID']);
 
 /* CommentController.php & RatingController.php Routen */
 Route::get('entries/comments', [CommentController::class, 'index']);
