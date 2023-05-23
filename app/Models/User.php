@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 
 
 class User extends Authenticatable
@@ -81,4 +82,22 @@ class User extends Authenticatable
     public function comments(): HasMany{
         return $this->hasMany(Comment::class);
     }
+
+    /* ---- auth JWT ---- */
+    /**
+     * @return mixed
+     */
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+    /**
+     * @return array
+     */
+    public function getJWTCustomClaims()
+    {
+        return ['user' => ['id' => $this->id]];
+    }
 }
+
+

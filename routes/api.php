@@ -46,3 +46,6 @@ Route::post('entries/{entrie_id}/ratings', [RatingController::class, 'saveRating
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+/* auth */
+Route::post('auth/login', [AuthController::class,'login']);
