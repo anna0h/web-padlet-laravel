@@ -42,6 +42,7 @@ Route::get('entries/{entrie_id}/comments', [CommentController::class,'findByEntr
 Route::post('entries/{entrie_id}/comments', [CommentController::class, 'saveComment']);
 Route::post('entries/{entrie_id}/ratings', [RatingController::class, 'saveRating']);
 
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
